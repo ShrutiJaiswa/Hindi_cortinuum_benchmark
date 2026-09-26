@@ -142,7 +142,7 @@ The original annotated corpus contains 59 source documents. The benchmark uses a
 The source documents do not overlap between the training, development, and test sets.The split was generated using random seed 42.
 
 ## Split Distribution
-# Train: 47/59 source documents (~79.7%)
+Train: 47/59 source documents (~79.7%)
 
 Dev: 5/59 source documents (~8.5%)
 
