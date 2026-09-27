@@ -53,7 +53,10 @@ indic-low-resource-benchmark/
 │   ├── Magahi/
 │   └── Maithili/
 └── QA/
-    └── Belt1_LittiChoQA_extracted.json
+    ├── Belt1_LittiChoQA_extracted.json
+    ├── train.json
+    ├── dev.json
+    └── test.json
 ```
 
 The directory structure may be refined as additional resources are verified and added.
@@ -229,8 +232,6 @@ Original LittiChoQA: https://github.com/ritwikmishra/LittiChoQA/
 
 Paper: Khandelwal, Mishra & Shah, "LittiChoQA: Literary Texts in Indic Languages Chosen for Question Answering," arXiv:2601.03025 (Jan 2026), submitted to ARR Jan cycle, targeting AACL 2026.
 
-## 6.1 Original LittiChoQA Dataset
-
 According to the dataset card, the original dataset contains:
 
 - 3,824 stories
@@ -241,22 +242,8 @@ According to the dataset card, the original dataset contains:
 
 The dataset is based on stories collected from online and digital literary sources. The source material and story availability vary across languages.
 
-## 6.2 Languages Selected for the Benchmark
-
-For the low-resource Indic language benchmark, six languages were extracted from the original LittiChoQA dataset:
-
-- Angika
-- Awadhi
-- Bhojpuri
-- Braj
-- Magahi
-- Maithili
-  
-These six languages were selected because they are part of the benchmark's low-resource Indic language set and are available in LittiChoQA.
-
-## 6.3 Six-Language Subset
-
-The extracted six-language subset contains the following resources according to the original dataset statistics:
+The current QA component uses Belt1_LittiChoQA_extracted, extracted from the LittiChoQA dataset.For the low-resource Indic language benchmark, six languages were extracted from the original LittiChoQA dataset:
+Angika, Awadhi, Bhojpuri, Braj, Magahi, Maithili
 
 | Language |	Stories |	Non-factoid QA |	Factoid QA |	Total QA |
 |---|---|---|---|---|
@@ -268,26 +255,22 @@ The extracted six-language subset contains the following resources according to 
 | Maithili	| 101 |	2,106	| 2,533 |	4,639 |
 | Total | 594 | 7,226 | 7,486 | 14,712 |
 
-The extraction was performed by filtering the original data using the language field and retaining the story-level QA data for these six languages.The extracted benchmark subset is stored as: **Belt1_LittiChoQA_extracted.json**
+The extraction was performed by filtering the original data using the language field and retaining the story-level QA data for these six languages.The counts in this table were recomputed directly from the extracted benchmark file rather than copied from the original dataset card.
+
+##  Dataset Format
+The extracted benchmark subset is stored as: **Belt1_LittiChoQA_extracted.json**
 
 **The language-wise QA counts shown above are the statistics found and extracted in Belt1_LittiChoQA.json. The reported in the original LittiChoQA dataset card is 594 stories and 14749 QA 
 The 37-record difference between the dataset-card total and the extracted data is retained as a documented data-version discrepancy. The extraction from the released data.json was independently verified and reproduced, including the story counts and story-level integrity.
 
-## 6.4 Extraction Procedure
+Each QA record retains the information required for downstream processing, including the story identifier, language, question-answer information, and QA type.
 
-The six-language subset was derived from the released LittiChoQA data.json using the following procedure:
+The two QA categories are:
 
-- Filter stories using the lang field for the six selected languages.
-- Retain all matching stories.
-- Extract the associated factoid and non-factoid QA records.
-- Preserve the association between each QA record and its source story.
-- Verify story counts, language consistency, and record uniqueness.
+- factoid
+- non-factoid
 
-The resulting extraction contains 14,712 QA records across 594 stories.
-
-The QA data are organized around stories and their associated question-answer pairs. A single story can contain multiple factoid and non-factoid questions.The story-level association is retained in the benchmark subset because it is important for subsequent dataset processing and train/dev/test splitting.
-
-## 6.5 Source Data
+##  Source Data
 
 The source material reported for the six selected languages includes:
 
@@ -302,13 +285,54 @@ The source material reported for the six selected languages includes:
 
 The source materials are primarily literary and folk-story resources. Consequently, the language coverage represents a relatively narrow narrative/folk-literary domain rather than general-domain language use.
 
-## 6.6 Benchmark Split Status
+## Train / Development/ Test Split
 
-The original LittiChoQA dataset's publicly documented train/dev/test split has not been verified as part of the released dataset files. A 70:10:20 train/dev/test split is reported in the associated paper in the context of the authors' experiments.
+The extracted dataset was divided into training, development, and test sets at the story level.This means that all QA records belonging to a particular story are assigned to the same split. Therefore, no story appears across multiple splits.A target ratio of 80% / 10% / 10% was used at the story level. Because different stories contain different numbers of QA pairs, the resulting QA-record distribution is not exactly 80% / 10% / 10%.The split was generated using random seed 42.
 
-Therefore, the benchmark does not currently assume or document a fixed train/dev/test split for LittiChoQA.
+| Split  |	Stories |	QA Records |
+|---|---|---|
+| Train	| 476 |	10,580 |
+| Dev	| 59 |	2,178 |
+| Test	| 59	| 1,954 |
+| Total	| 594	| 14,712 |
 
-A final benchmark split will be defined after the six-language subset has been audited. Because multiple QA pairs can belong to the same story, the story will be treated as the primary grouping unit when constructing the benchmark split to avoid placing questions from the same story across different splits.
+The following checks were performed after splitting:
+
+Input records: 14,712
+Output records: 14,712
+Input stories: 594
+Output stories: 594
+Train–Dev story overlap: 0
+Train–Test story overlap: 0
+Dev–Test story overlap: 0
+
+Thus, all 594 stories are preserved and there is no story-level leakage between the three splits.
+
+## Final QA Dataset Structure
+
+The prepared QA benchmark is organized as:
+
+QA/
+├── Belt1_LittiChoQA_extracted.json
+├── train.json
+├── dev.json
+└── test.json
+
+Belt1_LittiChoQA_extracted.json contains the complete six-language extraction, while train.json, dev.json, and test.json contain the corresponding story-level benchmark splits.
+
+## Data Handling
+
+The following processing was performed:
+
+- Selected the six target languages from the original LittiChoQA dataset.
+- Extracted all corresponding QA records.
+- Retained both factoid and non-factoid QA records.
+- Verified the extracted records and story coverage.
+- Split the data at the story level using seed 42.
+- Verified that all records and stories were preserved.
+- Verified that no story occurs in more than one split.
+
+The benchmark retains 14,712 extracted QA records. Duplicate QA records were not removed during benchmark construction.
 
 # 7. Named Entity Recognition (NER)
 
