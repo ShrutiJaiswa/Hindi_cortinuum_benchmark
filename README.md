@@ -169,7 +169,7 @@ An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTM
 2<TAB>token<TAB>POS<TAB>
 </Sentence>
 </document>
-  	```
+```
 - Token lines are: index <TAB>token<TAB>POS<TAB>(features).
 - 702 sentences are chunked: they contain chunk-opening lines (N<TAB>((<TAB>CHUNKTAG<TAB>…), token lines indexed N.M, and chunk-closing lines (<TAB>))).
 - The  14,557 sentences are flat (no chunk lines).
