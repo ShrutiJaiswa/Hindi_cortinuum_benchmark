@@ -63,7 +63,7 @@ indic-low-resource-benchmark/
     ├── train.json
     ├── dev.json
     └── test.json
-```text
+```
 
 # 3. Indo-Aryan Language Identification (ILI)
 
