@@ -45,6 +45,12 @@ indic-low-resource-benchmark/
 │   |    ├── dev.conll
 │   |    └── test.conll
 │   ├── Bhojpuri/
+|   |    ├── BMM
+|   |    │   └── bhojpuri-pos-tagged-ver-1.3.txt
+|   |    ├── BHLTR / JNU
+|   |    │   └── pos-tagged.bho
+|   |    └── BHTB / UD
+|   |        └── bho_bhtb-ud-test.conllu
 │   ├── Magahi/
 │   └── Maithili/
 ├── MT/
@@ -57,11 +63,6 @@ indic-low-resource-benchmark/
     ├── train.json
     ├── dev.json
     └── test.json
-```
-
-The directory structure may be refined as additional resources are verified and added.
-
----
 
 # 3. Indo-Aryan Language Identification (ILI)
 
@@ -102,8 +103,6 @@ Each line contains one sentence followed by a tab-separated language label:
 ## 3.4 Data Handling
 
 The VarDial 2018 ILI data are retained in their original form. No modifications are currently applied to the original train, development, or gold files.
-
----
 
 # 4. Part-of-Speech (POS) Tagging
 
@@ -155,9 +154,156 @@ Test: 7/59 source documents (~11.9%)
 
 Current resources include:
 
-- BMM Bhojpuri POS-tagged corpus
-- JNU-BHLTR Bhojpuri POS resource
+- BMM Bhojpuri POS-tagged corpus - https://github.com/singhakr/Bhojpuri-Magahi-and-Maithili-Linguistic-Resources
+- JNU-BHLTR Bhojpuri POS resource - https://github.com/shashwatup9k/BHLTR
+- Bhojpuri BHTB Universal Dependencies Treebank - https://github.com/UniversalDependencies/UD_Bhojpuri-BHTB
+### BMM Bhojpuri POS-tagged corpus - bhojpuri-pos-tagged-ver-1_3.txt
+Format:
+An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTML).
 
+<document id="null">
+<head></head>
+<Sentence id=''''>
+1<TAB>token<TAB>POS<TAB>
+2<TAB>token<TAB>POS<TAB>
+</Sentence>
+</document>
+  
+- Token lines are: index <TAB>token<TAB>POS<TAB>(features).
+- 702 sentences are chunked: they contain chunk-opening lines (N<TAB>((<TAB>CHUNKTAG<TAB>…), token lines indexed N.M, and chunk-closing lines (<TAB>))).
+- The  14,557 sentences are flat (no chunk lines).
+- 2,528 lines carry a non-empty 4th column, typically <fs af=',,,,,,,'> (an empty feature string).
+- 64 stray BOM characters (U+FEFF) occur mid-file.
+
+Parsing rules used in this audit: BOMs stripped; chunk-opening and chunk-closing lines excluded from token counts; chunk labels counted separately from POS tags.All tokens are Devanagari (0 Latin-script tokens found).
+#### Size
+| Measure |	Value |
+|---|---|
+| Documents (with content) | 55 (56 <document> opens, 55 closes; one unclosed) |
+| Sentences |	15,259 |
+| Unique sentences (exact token-string match)	12,009 |
+| Extra copies of repeated sentences |	3,250 |
+| Tokens	| 234,673 |
+| Tokens with a POS tag	| 228,843 |
+| Tokens with an empty POS field	| 5,830 |
+| Token types (distinct forms)	| 25,824 |
+| Sentences per document	| min 8, median 269, max 583 |
+
+#### Sentence-length distribution (tokens)
+- 925 sentences have 1 token; 1,322 have 3 or fewer.
+- 24 sentences exceed 100 tokens.
+- The two longest (lines 154003 and 156181; 1,785 and 609 tokens) contain 84 and 34 dandas and are almost certainly merged sentences.
+
+#### Tagset
+
+29 non-empty POS labels (plus the empty value), flat labels without a hierarchy.
+
+| Tag |	Count |	Tag	| Count |	Tag	| Count |
+|---|---|---|---|---|---|
+| NN	| 60,062	| RP	| 4,010	| QO	| 478 |
+| VM	| 35,431	| NST	| 3,800	| INJ	| 391 |
+| PSP	| 33,016	| QF	| 3,279	| CL	| 226 |
+| SYM	| 27,128	| QC	| 3,130	| ECH	| 111 |
+| PRP	| 15,538	| NEG	| 2,933	| UNK	| 62 |
+| VAUX	| 9,743	| WQ	| 1,668	| XC	| 8 |
+| NNP	| 8,555	| DEM	| 1,378	| UT	| 7 |
+| JJ	| 8,381	| RB	| 1,201	| NNP:?	| 3 |
+| CC	| 7,187	| RDP	| 632	| NEG:?	| 1 |
+| (empty)	| 5,830	| INTF	| 483	| -	| 1 |
+
+Chunk labels (not POS tags): NP 3,343; VGF 1,219; CCP 498; VGNF 162; BLK 75; JJP 64; RBP 29; NEGP 24; one chunk line with an empty label. These are excluded from every count in the table above.
+Rare or odd labels (XC, UT, UNK, NNP:?, NEG:?, -) are not explained in the file. XC appears on commas and on words such as में, which fits no obvious reading.
+
+#### Known defects
+| Issue |	Size |	Location / note |
+| Empty POS field	| 5,830 tokens in 479 sentences	| first at line 9936, last at 291455; present in 44 of 55 documents |
+| Sentences with no POS tag at all	| 377	| subset of the 479 |
+| Sentences with some (not all) empty tags	| 102	| 479 − 377 |
+| Untagged sentence-final danda	| 353	| subset of the empty tags |
+| Empty token field |	7	| lines 105682, 105819, 105862, 106163, 106372, 107760, 147127 |
+| Uncertainty-style tags |	5	| NNP:? at 3693, 6275, 6276; - at 39678; NEG:? at 82855 |
+| Stray </Sentence> |	1	| line 140805 |
+| Non-punctuation tokens tagged SYM	| small	| combining marks (ा, े, ं, ़) and a few words (के, से) |
+| Repeated sentences	| 3,250 extra copies |	exact-text match only |
+| Sentence IDs	| 238 of 15,259 have an ID |	the rest are blank |
+
+#### Proposed handling (not yet applied)
+- Keep the raw file unchanged; produce a cleaned derivative.
+- Deduplicate before any train/dev/test split to avoid leakage.
+- Exclude the 377 fully untagged sentences. For the 102 partly tagged sentences, either drop them or mask the empty tags (choose based on whether the goal is a large training set or a clean benchmark).
+- Review the 24 over-long sentences; split only clearly merged ones.
+- Map the odd labels (XC, UT, NNP:?, NEG:?, -) to UNK in the cleaned copy; keep them in the raw copy.
+- Strip BOMs; drop chunk lines from the flat POS view.
+
+### JNU-BHLTR Bhojpuri POS resource - pos-tagged.bho
+
+A plain two-column text file: token<SPACE>TAG, one token per line. Sentences are separated by blank lines.All 94,686 non-blank lines have exactly 2 columns.
+
+- Only 3 sentences have 1 token, and 36 have 3 or fewer. BMM had 925 one-token sentences.
+- 8 sentences exceed 100 tokens. The longest are at lines 29464 (190 tokens) and 26733 (180 tokens).
+- The curve is smooth with no absurd outliers. BMM's maximum was 1,785.
+- All 4,500 sentences end in RD_PUNC.
+#### Size
+| Measure |	Value |
+|---|---|
+| Sentences	| 4,500 |
+| Unique sentences |	4,496 |
+| Extra copies of repeated sentences	| 4 |
+| Tokens |	94,686 |
+| Token types (distinct forms)	 | 13,056 |
+| Tokens with an empty POS field	| 0 |
+
+#### Tagset
+
+34 POS labels, hierarchical (category, underscore, subtype). No empty labels.
+
+| Tag |	Count |	Tag |	Count | Tag |	Count |
+|---|---|---|---|---|---|
+| N_NN |	25,598 |	JJ |	2,850 |	DM_DMI	| 422 |
+| PSP	| 14,236	| CC_CCD |	2,735 |	RB	| 336 |
+| V_VM	| 13,364	| PR_PRP |	2,468 |	PR_PRQ	| 333 |
+| RD_PUNC	| 7,017	| N_NST	| 2,423	| QT_QTO	| 301 |
+| V_VAUX	| 5,153	| DM_DMD	| 1,747	| PR_PRL	| 170 |
+| N_NNP	| 5,095	| RP_RPD	| 1,688	| PR_PRI	| 166 |
+| RD_SYM	| 1,208	| RP_NEG	| 1,627	| DM_DMQ	| 119 |
+| QT_QTF	| 930	| CC_CCS	| 1,348	| RP_CL	| 112 |
+| PR_PRF	| 899	| QT_QTC	| 875	| RP_INJ	| 96 |
+| DM_DMR	| 892	| RP_INTF	| 422	| RD_UNK	| 33 |
+				| RD_ECH	| 9 |
+
+Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
+
+#### Known defects
+| Issue |	Size and details |
+|---|---|
+| Sentences with more than one terminator (।, ?, !)	| 97; first at lines 10602, 10883, 11086; the three examined were two sentences run together
+| Punctuation-only tokens with a non-punctuation tag |	1,204 of 9,235 (13.0%); - tagged N_NN 745, V_VM 74, N_NNP 73; also (, ), !, :
+| Numerals with inconsistent tags	| 218; N_NN 129, N_NNP 60, RD_SYM 15, V_VM 9, QT_QTC 5
+| Tokens with a quote mark attached to the word	| 343; e.g. “लोक, ‘पाती; some are tagged as punctuation. Tag distribution not tallied
+| Latin letters inside Devanagari tokens	| 5; मालtम (23499), BHAI (26736), हs (67664), उनुकj (68429, 68448)
+| Invisible characters (ZWJ, ZWNJ, BOM) inside tokens	| 6; not yet located
+| V_vM	| 7; lines 14911, 25872, 31863, 62205, 64211, 85034, 95213
+| PR_PRC	| 2; lines 61154, 70213
+| RD_ECH_B	| 5; lines 23367, 50497, 51099, 79416, 95607
+| Repeated sentences	| 4 extra copies; । ×3, हाँ मालिक । ×2, … । ×2; none has conflicting tags
+| Hyphen tagged as noun (note)	| In जानल - मानल the hyphen is tagged N_NN. It may be a hyphen inside a compound that was tagged with the noun. Whether this is deliberate or an inconsistency cannot be determined without annotation guidelines.|
+
+#### Overlap with the other Bhojpuri files
+| Pair |	Shared sentences (exact text) |
+| BHLTR and BMM |	6 |
+| BHLTR and BHTB	| 86 (of BHTB's 357) |
+
+On the 1,554 tokens aligned between BHLTR and the 86 shared BHTB sentences, the XPOS tags agree 94.6% of the time (84 disagreements; most common V_VM vs V_VAUX, 15).
+#### Proposed handling (not yet applied)
+- Keep the raw file unchanged and produce a cleaned derivative.
+- Remove the 4 extra duplicate copies before any train/dev/test split.
+- Remove or set aside the 86 sentences shared with BHTB if BHTB is used as an external test set.
+- For the 97 multi-terminator blocks: split, flag or leave. Decide after checking how ! and ? behave inside dialogue.
+- Do not overwrite the 1,204 punctuation tags yet; inspect where they occur first.
+- Keep rare labels (V_vM, RD_ECH_B, PR_PRC) in the raw copy. In the cleaned copy, map or flag them once the tagset document confirms their status.
+- Flag, but keep, the 5 Latin-letter tokens.
+
+###
 ## 4.3 Magahi
 
 Current resources include:
