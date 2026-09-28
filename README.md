@@ -182,7 +182,7 @@ Parsing rules used in this audit: BOMs stripped; chunk-opening and chunk-closing
 |---|---|
 | Documents (with content) | 55 (56 <document> opens, 55 closes; one unclosed) |
 | Sentences |	15,259 |
-| Unique sentences (exact token-string match)	12,009 |
+| Unique sentences (exact token-string match) |	12,009 |
 | Extra copies of repeated sentences |	3,250 |
 | Tokens	| 234,673 |
 | Tokens with a POS tag	| 228,843 |
@@ -217,6 +217,7 @@ Rare or odd labels (XC, UT, UNK, NNP:?, NEG:?, -) are not explained in the file.
 
 #### Known defects
 | Issue |	Size |	Location / note |
+|---|---|---|
 | Empty POS field	| 5,830 tokens in 479 sentences	| first at line 9936, last at 291455; present in 44 of 55 documents |
 | Sentences with no POS tag at all	| 377	| subset of the 479 |
 | Sentences with some (not all) empty tags	| 102	| 479 − 377 |
@@ -291,6 +292,7 @@ Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 
 #### Overlap with the other Bhojpuri files
 | Pair |	Shared sentences (exact text) |
+|---|---|
 | BHLTR and BMM |	6 |
 | BHLTR and BHTB	| 86 (of BHTB's 357) |
 
