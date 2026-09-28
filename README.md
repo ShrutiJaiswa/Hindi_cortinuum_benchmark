@@ -305,7 +305,32 @@ On the 1,554 tokens aligned between BHLTR and the 86 shared BHTB sentences, the 
 - Keep rare labels (V_vM, RD_ECH_B, PR_PRC) in the raw copy. In the cleaned copy, map or flag them once the tagset document confirms their status.
 - Flag, but keep, the 5 Latin-letter tokens.
 
-###
+### BHTB/UD - bho_bhtb-ud-test.conllu
+A standard CoNLL-U file: 10 tab-separated columns, # key = value .comment lines, and blank lines between sentences.
+
+- Sentences: 357, but only 268 are unique.
+- Tokens: 6,665, of which 5,085 are in unique sentences.
+- Types (distinct forms): 1,680; lemma types: 1,635.
+- Sentence IDs: f1-1 to f1-102 (102 sentences), f2-1 to f2-152 (152), and f3-1 to f3-103 (103)
+#### Overlap with BHLTR
+- 86 distinct BHTB sentences appear in BHLTR, and all 86 are in f1. That is 84.3% of f1's 102 sentences.
+- f2 and f3 share no text with BHLTR.
+- Distinct BHTB sentences not in BHLTR: 268 − 86 = 182.
+
+ UPOS (16 tags, no empty values): NOUN 1,855; ADP 989; VERB 767; PUNCT 695; PROPN 421; AUX 355; DET 353; PRON 335; ADJ 249; PART 191; CCONJ 151; NUM 149; SCONJ 118; ADV 31; INTJ 5; X 1. The single X is स्टाइल (line 3383).
+
+ XPOS (50 labels): mostly BHLTR-style hierarchical labels (N_NN 1,724; PSP 987; V_VM 761; RD_PUNC 612…)
+
+#### Structure and validity
+
+Everything below checked out cleanly:
+
+- All 6,665 lines have exactly 10 columns.
+- 1,487 tokens (22.3%) have no morphological features, and 5,090 tokens have a lemma identical to the form.
+- Every token has Translit and LTranslit in the MISC column.
+- Spacing is marked with SpacesAfter (447 tokens, 309 of them \n) and SpaceAfter (5 tokens). Standard CoNLL-U uses SpaceAfter=No, so this is a small format quirk.
+- Two sentences (lines 400 and 474) have an English translation, # text_en.
+
 ## 4.3 Magahi
 
 Current resources include:
