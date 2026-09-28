@@ -161,7 +161,7 @@ Current resources include:
 ### BMM Bhojpuri POS-tagged corpus - bhojpuri-pos-tagged-ver-1_3.txt
 Format:
 An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTML).
-
+```text
 <document id="null">
 <head></head>
 <Sentence id=''''>
@@ -169,7 +169,7 @@ An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTM
 2<TAB>token<TAB>POS<TAB>
 </Sentence>
 </document>
-  
+  	```
 - Token lines are: index <TAB>token<TAB>POS<TAB>(features).
 - 702 sentences are chunked: they contain chunk-opening lines (N<TAB>((<TAB>CHUNKTAG<TAB>…), token lines indexed N.M, and chunk-closing lines (<TAB>))).
 - The  14,557 sentences are flat (no chunk lines).
@@ -271,7 +271,7 @@ A plain two-column text file: token<SPACE>TAG, one token per line. Sentences are
 | QT_QTF	| 930	| CC_CCS	| 1,348	| RP_CL	| 112 |
 | PR_PRF	| 899	| QT_QTC	| 875	| RP_INJ	| 96 |
 | DM_DMR	| 892	| RP_INTF	| 422	| RD_UNK	| 33 |
-				| RD_ECH	| 9 |
+|  |  				| RD_ECH	| 9 |
 
 Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 
@@ -287,7 +287,6 @@ Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 | V_vM	| 7; lines 14911, 25872, 31863, 62205, 64211, 85034, 95213
 | PR_PRC	| 2; lines 61154, 70213
 | RD_ECH_B	| 5; lines 23367, 50497, 51099, 79416, 95607
-| Repeated sentences	| 4 extra copies; । ×3, हाँ मालिक । ×2, … । ×2; none has conflicting tags
 | Hyphen tagged as noun (note)	| In जानल - मानल the hyphen is tagged N_NN. It may be a hyphen inside a compound that was tagged with the noun. Whether this is deliberate or an inconsistency cannot be determined without annotation guidelines.|
 
 #### Overlap with the other Bhojpuri files
