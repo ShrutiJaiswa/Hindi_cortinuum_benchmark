@@ -361,7 +361,7 @@ NN, NNP, PRP, VM, VAUX, DEM, PSP, QC, JJ, RB, NST, WQ, RP, QO, SYM, CC, CL, QF, 
 | Sentence blocks |	15,013 |
 | Token records| 178,192 |
 | Tokens with POS value | 171,614 |
-| Empty POS fields |	6,578 |
+| Empty POS fields |	6,581 |
 | Structurally malformed rows	| 48 |
 | Distinct POS values including empty |	37 |
 
@@ -369,33 +369,33 @@ So our file is not identical to the corpus statistics reported in the paper.
 
 The BMM Magahi corpus follows the BIS POS tagset, but the original authors report annotation challenges arising from language-specific morphological and syntactic phenomena, including embedded case markers, emphatic markers, classifiers, diverse realizations of individual tokens, and homophonous forms. The reported Magahi inter-annotator agreement was Cohen's κ = 0.64.
 
-Published vs our file
-POS	Paper	Our file
-NN	42,925	42,939
-VM	21,678	21,679
-PSP	17,933	17,934
-SYM	26,167	26,172
-VAUX	17,094	17,095
-PRP	5,840	5,842
-JJ	6,053	6,055
-CC	4,747	4,747
-RP	5,247	5,250
-NST	4,694	4,696
-NNP	4,111	4,109
-RB	—	3,500
-QF	2,480	2,480
-QC	1,780	1,780
-NEG	2,140	2,143
-DEM	—	2,122
-WQ	—	1,220
-QO	—	570
-INTF	—	489
-INJ	—	288
-RDP	—	206
-ECH	—	129
-CL	66	66
-UNK	28	28
-UT	1	1
+ Published  vs our file
+| POS |	Paper	| Our file |
+|---|---|---|
+| NN	| 42,925	| 42,939 |
+| PSP	| 17,933	| 17,934 |
+| SYM	| 26,167	| 26,172 |
+| VAUX	| 17,094	| 17,095 |
+| PRP	| 5,840	| 5,842  |
+| JJ	| 6,053 |	6,055 |
+| CC	| 4,747	| 4,747 |
+| RP	| 5,247	| 5,250 |
+| NST | 4,694 |	4,696 |
+| NNP	| 4,111	| 4,109 |
+| RB	| —	| 3,500 |
+| QF	| 2,480	| 2,480 |
+| QC	| 1,780	| 1,780 |
+| NEG |	2,140	| 2,143 |
+| DEM |	— |	2,122 |
+| WQ	| —	| 1,220 |
+| QO	| —	| 570 |
+| INTF	| —	| 489 |
+| INJ	| —	| 288 |
+| RDP |	—	| 206  |
+| ECH |	—	| 129 |
+| CL |	66	| 66 |
+| UNK	| 28	| 28 |
+| UT	| 1	| 1 |
 
 found a continuous block:
 
@@ -403,19 +403,17 @@ Sentence 9358 → Sentence 9610
 
 containing:
 
-253 sentences
-3,474 tokens
-3,474 empty POS fields
+- 253 sentences
+- 3,474 tokens
+- 3,474 empty POS fields
 
 Exclude these 3,474 unannotated tokens from the gold POS dataset, but preserve them in the original/source archive.
+Remaining 3,104 empty tags are different.After removing that big unannotated block:
 
-remaining 3,104 empty tags are different
-
-After removing that big unannotated block:
-
-6,578 − 3,474 = 3,104 empty-tag records
+6,581 − 3,474 = 3,107 empty-tag records
 
 These are scattered throughout the file.
+
 ## 4.4 Maithili
 
 Current resources include:
