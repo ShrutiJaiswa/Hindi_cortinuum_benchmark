@@ -504,7 +504,6 @@ These are scattered throughout the file.
 | Item | Value |
 |---|---|
 | Source file | `magahi-pos-tagged-ver-1_3.txt` |
-| Source SHA-256 | `276d8bf2dfd27a99248ae37d6dd790db6edfaf6e21b1e41fe483b1c80a4a7fa2` |
 | Source sentences | 15,015 (15,014 with tokens) |
 | Source token records | 178,166 |
 | Documents | 31 opened, 29 closed (wrappers regenerated) |
@@ -681,6 +680,30 @@ The BMM labels `XC`, `J4`, `WQ:?`, `VAUX:?`, `QO:?`, `UT` and `WQ` do not occur 
 Current resources include:
 
 - BMM Maithili POS-tagged corpus
+The corpus has -
+- 253,034 lines
+- 12,680 sentence blocks and 37 distinct tag
+- `<document>` tags are unbalanced: 47 open vs 45 close.
+
+The corpus is cleaned -
+| Details | Count |
+|---|---:|
+| Sentences in source | 12,680 |
+| **Sentences kept** | **12,190** |
+| Sentences excluded | 490 |
+| **Tokens kept** | **201,081** |
+| Tokens in excluded sentences | 12,916 |
+| Sentence length (tokens): mean / median  / max | 16.5 / 14 / 272 |
+
+- 313 partially annotated (of which 2 also had malformed rows),
+- 117 fully unannotated (of which 4 also malformed),
+- 59 malformed rows only,
+- 1 malformed tag string (a Devanagari word in the tag column).
+
+* 25 standard tags: `NN NNP NST PRP DEM VM VAUX JJ RB PSP RP CC WQ QF QC QO CL INTF INJ NEG UT SYM RDP ECH UNK` (most frequent: NN 52,813; VM 25,181; SYM 20,716; VAUX 17,513; PSP 16,014).
+* 11 flagged, kept: `RP:?` 10, `XC` 8, `JJ:?` 7, `QF:?` 3, `NN:?` 3, `RB:?` 2, `PSP:?` 2, `VM:?` 2, `NST:?` 1, `RDP:?` 1, `NEG:?` 1 — 40 tokens in 39 sentences.
+* 1 malformed (`पर`, in the tag column) — lives only in an excluded sentence.
+* `UT` occurs once and is retained as a legitimate rare tag.
 
 
 # 5. Machine Translation (MT)
