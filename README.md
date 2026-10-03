@@ -242,7 +242,7 @@ Current resources include:
 - JNU-BHLTR Bhojpuri POS resource - https://github.com/shashwatup9k/BHLTR
 - Bhojpuri BHTB Universal Dependencies Treebank - https://github.com/UniversalDependencies/UD_Bhojpuri-BHTB
   
-### BMM Bhojpuri POS-tagged corpus - bhojpuri-pos-tagged-ver-1_3.txt
+### 4.2.1 BMM Bhojpuri POS-tagged corpus - bhojpuri-pos-tagged-ver-1_3.txt
 Format:
 The source is an SSF-style pseudo-XML file. Although the file command reports the file as "HTML", but the content is not HTML).
 ```text
@@ -340,15 +340,14 @@ The following processing is planned for the cleaned derivative:
 - Strip BOMs
 - Drop chunk lines from the flat POS view.
 
-### JNU-BHLTR Bhojpuri POS resource - pos-tagged.bho
+### 4.2.2 JNU-BHLTR Bhojpuri POS resource - pos-tagged.bho
 
-A plain two-column text file: token<SPACE>TAG, one token per line. Sentences are separated by blank lines.All 94,686 non-blank lines have exactly 2 columns.
+The resource is a plain two-column text file: token<SPACE>TAG, one token per line. 
 
-- Only 3 sentences have 1 token, and 36 have 3 or fewer. BMM had 925 one-token sentences.
-- 8 sentences exceed 100 tokens. The longest are at lines 29464 (190 tokens) and 26733 (180 tokens).
-- The curve is smooth with no absurd outliers. BMM's maximum was 1,785.
-- All 4,500 sentences end in RD_PUNC.
+Sentences are separated by blank lines.All 94,686 non-blank lines have exactly 2 columns.
+  
 #### Size
+
 | Measure |	Value |
 |---|---|
 | Sentences	| 4,500 |
@@ -358,9 +357,18 @@ A plain two-column text file: token<SPACE>TAG, one token per line. Sentences are
 | Token types (distinct forms)	 | 13,056 |
 | Tokens with an empty POS field	| 0 |
 
+#### Sentence_Length Distribution
+
+- Only 3 sentences have 1 token.
+-  36 have 3 or fewer.
+- 8 sentences exceed 100 tokens.
+- The longest are at lines 29464 (190 tokens) and 26733 (180 tokens).
+- The curve is smooth with no absurd outliers. BMM's maximum was 1,785.
+- All 4,500 sentences end in RD_PUNC.
+  
 #### Tagset
 
-34 POS labels, hierarchical (category, underscore, subtype). No empty labels.
+The resource contains 34 POS labels, hierarchical (category, underscore, subtype).
 
 | Tag |	Count |	Tag |	Count | Tag |	Count |
 |---|---|---|---|---|---|
@@ -378,7 +386,8 @@ A plain two-column text file: token<SPACE>TAG, one token per line. Sentences are
 
 Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 
-#### Known defects
+#### Known Data Issues
+
 | Issue |	Size and details |
 |---|---|
 | Sentences with more than one terminator (।, ?, !)	| 97; first at lines 10602, 10883, 11086; the three examined were two sentences run together
@@ -393,45 +402,61 @@ Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 | Hyphen tagged as noun (note)	| In जानल - मानल the hyphen is tagged N_NN. It may be a hyphen inside a compound that was tagged with the noun. Whether this is deliberate or an inconsistency cannot be determined without annotation guidelines.|
 
 #### Overlap with the other Bhojpuri files
-| Pair |	Shared sentences (exact text) |
+| Pair |	Shared sentences |
 |---|---|
 | BHLTR and BMM |	6 |
 | BHLTR and BHTB	| 86 (of BHTB's 357) |
 
-On the 1,554 tokens aligned between BHLTR and the 86 shared BHTB sentences, the XPOS tags agree 94.6% of the time (84 disagreements; most common V_VM vs V_VAUX, 15).
-#### Proposed handling (not yet applied)
-- Keep the raw file unchanged and produce a cleaned derivative.
-- Remove the 4 extra duplicate copies before any train/dev/test split.
-- Remove or set aside the 86 sentences shared with BHTB if BHTB is used as an external test set.
-- For the 97 multi-terminator blocks: split, flag or leave. Decide after checking how ! and ? behave inside dialogue.
-- Do not overwrite the 1,204 punctuation tags yet; inspect where they occur first.
-- Keep rare labels (V_vM, RD_ECH_B, PR_PRC) in the raw copy. In the cleaned copy, map or flag them once the tagset document confirms their status.
-- Flag, but keep, the 5 Latin-letter tokens.
+For the 1,554 tokens aligned between BHLTR and the 86 shared BHTB sentences, the XPOS tags agree 94.6% of the time (84 disagreements; most common V_VM vs V_VAUX, 15).
 
-### BHTB/UD - bho_bhtb-ud-test.conllu
-A standard CoNLL-U file: 10 tab-separated columns, # key = value .comment lines, and blank lines between sentences.
+#### Proposed processing
+- Preserve the raw source file unchanged.
+- Remove the four extra duplicate copies before train/dev/test splitting.
+- Set aside the 86 sentences shared with BHTB if BHTB is used as an external test set.
+- Review the 97 multi-terminator blocks.
+- Inspect the 1,204 punctuation-tagging cases before changing them.
+- Preserve rare labels in the raw copy and resolve them in the cleaned copy after confirming the tagset documentation.
+- Flag, but retain, the five tokens containing Latin characters.
 
-- Sentences: 357, but only 268 are unique.
-- Tokens: 6,665, of which 5,085 are in unique sentences.
-- Types (distinct forms): 1,680; lemma types: 1,635.
-- Sentence IDs: f1-1 to f1-102 (102 sentences), f2-1 to f2-152 (152), and f3-1 to f3-103 (103)
+### 4.2.3 BHTB/UD - bho_bhtb-ud-test.conllu
+The resource follows the standard CoNLL-U file: 10 tab-separated columns, # key = value .comment lines, and blank lines between sentences.
+
+- Sentences: 357
+- Unique sentences: 268 .
+- Tokens: 6,665
+- Tokens in unique sentences: 5,085.
+- Token types : 1,680
+- Lemma types: 1,635.
+  
+Sentence IDs range across: 
+- f1-1 to f1-102 (102 sentences)
+- f2-1 to f2-152 (152)
+- f3-1 to f3-103 (103)
+  
 #### Overlap with BHLTR
-- 86 distinct BHTB sentences appear in BHLTR, and all 86 are in f1. That is 84.3% of f1's 102 sentences.
+- 86 distinct BHTB sentences appear in BHLTR
+- All 86 shared sentences are in f1.
+- The overlap represnts 84.3% of f1's 102 sentences.
 - f2 and f3 share no text with BHLTR.
 - Distinct BHTB sentences not in BHLTR: 268 − 86 = 182.
 
- UPOS (16 tags, no empty values): NOUN 1,855; ADP 989; VERB 767; PUNCT 695; PROPN 421; AUX 355; DET 353; PRON 335; ADJ 249; PART 191; CCONJ 151; NUM 149; SCONJ 118; ADV 31; INTJ 5; X 1. The single X is स्टाइल (line 3383).
+#### UPOS 
+The resource contains UPOS 16 tags, no empty values: 
+NOUN 1,855; ADP 989; VERB 767; PUNCT 695; PROPN 421; AUX 355; DET 353; PRON 335; ADJ 249; PART 191; CCONJ 151; NUM 149; SCONJ 118; ADV 31; INTJ 5; X 1. 
 
- XPOS (50 labels): mostly BHLTR-style hierarchical labels (N_NN 1,724; PSP 987; V_VM 761; RD_PUNC 612…)
+The single X is स्टाइल (line 3383).
+
+The XPOS inventory contains 50 labels and is primarily based on BHLTR-style hierarchical labels (N_NN 1,724; PSP 987; V_VM 761; RD_PUNC 612…)
 
 #### Structure and validity
 
-Everything below checked out cleanly:
+The following properties were verified:
 
 - All 6,665 lines have exactly 10 columns.
-- 1,487 tokens (22.3%) have no morphological features, and 5,090 tokens have a lemma identical to the form.
+- 1,487 tokens (22.3%) have no morphological features
+-  5,090 tokens have a lemma identical to the form.
 - Every token has Translit and LTranslit in the MISC column.
-- Spacing is marked with SpacesAfter (447 tokens, 309 of them \n) and SpaceAfter (5 tokens). Standard CoNLL-U uses SpaceAfter=No, so this is a small format quirk.
+- Spacing is marked using SpacesAfter (447 tokens, 309 of them \n) and SpaceAfter (5 tokens). Standard CoNLL-U uses SpaceAfter=No, so this is a small format quirk.
 - Two sentences (lines 400 and 474) have an English translation, # text_en.
 
 ## 4.3 Magahi
