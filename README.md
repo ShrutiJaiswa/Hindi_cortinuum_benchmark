@@ -15,7 +15,7 @@ The benchmark focuses on:
 - Angika
 
   
-Hindi is retained where it is part of an original source task or is required as a translation/reference language.
+Hindi is retained where it is part of a source task or is required as a translation/reference language.
 
 ### 1.2 Tasks
 - Indo-Aryan Language Identification (ILI)
@@ -24,8 +24,7 @@ Hindi is retained where it is part of an original source task or is required as 
 - Question Answering (QA)
 - Named Entity Recognition (NER)
 
-Resource availability is not necessarily uniform across all languages and tasks. Each task section documents the datasets currently included.
-
+Resource availability varies across languages and tasks. Each task section documents the datasets currently included.
 
 ## 2. Dataset Organization
 
@@ -152,12 +151,13 @@ indic-low-resource-benchmark/
 
 # 3. Indo-Aryan Language Identification (ILI)
 
-## 3.1 Dataset
+### 3.1 Dataset
 
 Task Organizers: Ritesh Kumar, Bornini Lahiri, and Mayank Jain.
+
 Domain: Literature-domain text.
 
-### Languages
+#### Languages
 
 | Language | Label |
 |---|---|
@@ -167,7 +167,7 @@ Domain: Literature-domain text.
 | Magahi | MAG |
 | Hindi | HIN |
 
-## 3.2 Original Format
+### 3.2 Original Format
 
 Each line contains one sentence followed by a tab-separated language label:
 
@@ -175,7 +175,7 @@ Each line contains one sentence followed by a tab-separated language label:
 <sentence>\t<LABEL>
 ```
 
-## 3.3 Dataset Splits
+### 3.3 Dataset Splits
 
 | Language | Train | Dev | Gold | Total |
 |---|---:|---:|---:|---:|
@@ -185,8 +185,6 @@ Each line contains one sentence followed by a tab-separated language label:
 | Bhojpuri | 14,949 | 2,003 | 2,006 | 18,958 |
 | Awadhi | 9,315 | 1,480 | 1,502 | 12,297 |
 | **Total** | **70,351** | **10,329** | **9,692** | **90,372** |
-
-## 3.4 Data Handling
 
 The VarDial 2018 ILI data are retained in their original form. No modifications are currently applied to the original train, development, or gold files.
 
@@ -198,7 +196,7 @@ The POS component currently contains resources for Awadhi, Bhojpuri, Magahi, and
 
 A document-level train/dev/test benchmark for Awadhi Part-of-Speech (POS) tagging was prepared from the manually annotated KMI Awadhi corpus.
 
-## Dataset Structure
+### Dataset Structure
 
 The dataset contains three CoNLL-formatted files:
 
@@ -208,7 +206,7 @@ The dataset contains three CoNLL-formatted files:
 | dev.conll | Development/validation split |
 | test.conll | Held-out test split |
 
-## Format
+### Format
 
 Each non-empty line contains three tab-separated fields:
 
@@ -216,7 +214,7 @@ TOKEN     POS_TAG     0_TAG
 
 Sentences are separated by a blank line. The third column contains O for all tokens. It is retained as a placeholder for compatibility with the original corpus format and should not be interpreted as an NER-annotated dataset.
 
-## Dataset Split
+### Dataset Split
 
 The original annotated corpus contains 59 source documents. The benchmark uses a document-level split, meaning that all sentences from a source document are assigned to only one split.
 
@@ -227,9 +225,9 @@ The original annotated corpus contains 59 source documents. The benchmark uses a
 |Test	| 7 |	174	| 2,411 |
 |Total |	59 |	1,584 |	21,526 |
 
-The source documents do not overlap between the training, development, and test sets.The split was generated using random seed 42.
+The source documents do not overlap between the training, development, and test sets. The split was generated using random seed 42.
 
-## Split Distribution
+### Split Distribution
 Train: 47/59 source documents (~79.7%)
 
 Dev: 5/59 source documents (~8.5%)
@@ -243,9 +241,10 @@ Current resources include:
 - BMM Bhojpuri POS-tagged corpus - https://github.com/singhakr/Bhojpuri-Magahi-and-Maithili-Linguistic-Resources
 - JNU-BHLTR Bhojpuri POS resource - https://github.com/shashwatup9k/BHLTR
 - Bhojpuri BHTB Universal Dependencies Treebank - https://github.com/UniversalDependencies/UD_Bhojpuri-BHTB
+  
 ### BMM Bhojpuri POS-tagged corpus - bhojpuri-pos-tagged-ver-1_3.txt
 Format:
-An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTML).
+The source is an SSF-style pseudo-XML file. Although the file command reports the file as "HTML", but the content is not HTML).
 ```text
 <document id="null">
 <head></head>
@@ -255,19 +254,22 @@ An SSF-style pseudo-XML file (the file command reports "HTML", but it is not HTM
 </Sentence>
 </document>
 ```
-- Token lines are: index <TAB>token<TAB>POS<TAB>(features).
-- 702 sentences are chunked: they contain chunk-opening lines (N<TAB>((<TAB>CHUNKTAG<TAB>…), token lines indexed N.M, and chunk-closing lines (<TAB>))).
+Token lines are: index <TAB>token<TAB>POS<TAB>(features).
+
+The inspected file contains:
+- 702 chunked sentences containing chunk-opening lines (N<TAB>((<TAB>CHUNKTAG<TAB>…), token lines indexed N.M, and chunk-closing lines (<TAB>))).
 - The  14,557 sentences are flat (no chunk lines).
 - 2,528 lines carry a non-empty 4th column, typically <fs af=',,,,,,,'> (an empty feature string).
 - 64 stray BOM characters (U+FEFF) occur mid-file.
 
-Parsing rules used in this audit: BOMs stripped; chunk-opening and chunk-closing lines excluded from token counts; chunk labels counted separately from POS tags.All tokens are Devanagari (0 Latin-script tokens found).
+During auditing, BOMs were stripped for analysis, chunk-opening and chunk-closing lines were excluded from token counts, and chunk labels were counted separately from POS tags..All tokens are Devanagari (0 Latin-script tokens found).
+
 #### Size
 | Measure |	Value |
 |---|---|
-| Documents (with content) | 55 (56 <document> opens, 55 closes; one unclosed) |
+| Documents with content | 55 (56 <document> opens, 55 closes; one unclosed) |
 | Sentences |	15,259 |
-| Unique sentences (exact token-string match) |	12,009 |
+| Unique sentences |	12,009 |
 | Extra copies of repeated sentences |	3,250 |
 | Tokens	| 234,673 |
 | Tokens with a POS tag	| 228,843 |
@@ -275,14 +277,15 @@ Parsing rules used in this audit: BOMs stripped; chunk-opening and chunk-closing
 | Token types (distinct forms)	| 25,824 |
 | Sentences per document	| min 8, median 269, max 583 |
 
-#### Sentence-length distribution (tokens)
-- 925 sentences have 1 token; 1,322 have 3 or fewer.
+#### Sentence-length distribution
+- 925 sentences have 1 token
+-  1,322 have 3 or fewer.
 - 24 sentences exceed 100 tokens.
 - The two longest (lines 154003 and 156181; 1,785 and 609 tokens) contain 84 and 34 dandas and are almost certainly merged sentences.
 
 #### Tagset
 
-29 non-empty POS labels (plus the empty value), flat labels without a hierarchy.
+The file contains 29 non-empty POS labels plus the empty value.
 
 | Tag |	Count |	Tag	| Count |	Tag	| Count |
 |---|---|---|---|---|---|
@@ -297,14 +300,25 @@ Parsing rules used in this audit: BOMs stripped; chunk-opening and chunk-closing
 | CC	| 7,187	| RDP	| 632	| NEG:?	| 1 |
 | (empty)	| 5,830	| INTF	| 483	| -	| 1 |
 
-Chunk labels (not POS tags): NP 3,343; VGF 1,219; CCP 498; VGNF 162; BLK 75; JJP 64; RBP 29; NEGP 24; one chunk line with an empty label. These are excluded from every count in the table above.
+Chunk labels are not treated as not POS tags. The identified chunk labels are:
+- NP 3,343;
+- VGF 1,219;
+- CCP 498;
+- VGNF 162;
+- BLK 75;
+- JJP 64;
+- RBP 29;
+- NEGP 24;
+- one chunk line with an empty label.
+  
 Rare or odd labels (XC, UT, UNK, NNP:?, NEG:?, -) are not explained in the file. XC appears on commas and on words such as में, which fits no obvious reading.
 
-#### Known defects
+#### Known Data Issues
+
 | Issue |	Size |	Location / note |
 |---|---|---|
 | Empty POS field	| 5,830 tokens in 479 sentences	| first at line 9936, last at 291455; present in 44 of 55 documents |
-| Sentences with no POS tag at all	| 377	| subset of the 479 |
+| Sentences with no POS tag	| 377	| subset of the 479 |
 | Sentences with some (not all) empty tags	| 102	| 479 − 377 |
 | Untagged sentence-final danda	| 353	| subset of the empty tags |
 | Empty token field |	7	| lines 105682, 105819, 105862, 106163, 106372, 107760, 147127 |
@@ -314,13 +328,17 @@ Rare or odd labels (XC, UT, UNK, NNP:?, NEG:?, -) are not explained in the file.
 | Repeated sentences	| 3,250 extra copies |	exact-text match only |
 | Sentence IDs	| 238 of 15,259 have an ID |	the rest are blank |
 
-#### Proposed handling (not yet applied)
-- Keep the raw file unchanged; produce a cleaned derivative.
-- Deduplicate before any train/dev/test split to avoid leakage.
-- Exclude the 377 fully untagged sentences. For the 102 partly tagged sentences, either drop them or mask the empty tags (choose based on whether the goal is a large training set or a clean benchmark).
+#### Proposed processing  
+The following processing is planned for the cleaned derivative:
+- Keep the raw file unchanged
+- Produce a separatecleaned derivative.
+- Deduplicate sentences before any train/dev/test split to avoid leakage.
+- Exclude the 377 fully untagged sentences.
+- Review the 102 partly tagged sentences, either drop them or mask the empty tags 
 - Review the 24 over-long sentences; split only clearly merged ones.
 - Map the odd labels (XC, UT, NNP:?, NEG:?, -) to UNK in the cleaned copy; keep them in the raw copy.
-- Strip BOMs; drop chunk lines from the flat POS view.
+- Strip BOMs
+- Drop chunk lines from the flat POS view.
 
 ### JNU-BHLTR Bhojpuri POS resource - pos-tagged.bho
 
