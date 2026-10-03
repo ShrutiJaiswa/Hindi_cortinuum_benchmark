@@ -461,7 +461,7 @@ The following properties were verified:
 
 ## 4.3 Magahi
 
-Current resources include:
+The current Magahi POS collection includes:
 
 - BMM Magahi POS-tagged corpus
 - KMI Magahi corpus
@@ -470,21 +470,21 @@ Current resources include:
   - gold POS data
   - CoNLL representations
 
-### BMM Magahi POS-tagged corpus
-The paper reports the Magahi POS corpus as:
+### 4.3.1 BMM Magahi POS-tagged corpus
+The published BMM Magahi POS corpus is reported as:
 
 - 14,669 sentences
 - 171,509 POS-annotated tokens
 - BIS 25-tag POS inventory
 - Magahi inter-annotator agreement: Cohen's κ = 0.64
 
-The paper explicitly warns that human annotation is not guaranteed to be perfect and discusses several sources of annotation difficulty.
+The source paper notes that human annotation is not guaranteed to be perfect and discusses annotation difficulties associated with several sources of annotation difficulty associated with Magahi-specific morphological ans syntactic phenomena.
 
-The 25 BIS POS tags used by the paper are:
-
+#### Published BIS POS tags 
 NN, NNP, PRP, VM, VAUX, DEM, PSP, QC, JJ, RB, NST, WQ, RP, QO, SYM, CC, CL, QF, INJ, INTF, NEG, RDP, ECH, UNK, UT
-### Actual file
-| Measure |	Our file |
+
+### Actual Source file
+| Measure |	Value |
 |---|---|
 | Sentence blocks |	15,013 |
 | Token records| 178,192 |
@@ -493,12 +493,12 @@ NN, NNP, PRP, VM, VAUX, DEM, PSP, QC, JJ, RB, NST, WQ, RP, QO, SYM, CC, CL, QF, 
 | Structurally malformed rows	| 48 |
 | Distinct POS values including empty |	37 |
 
-So our file is not identical to the corpus statistics reported in the paper.
+The inspected file is therefore not identical to the corpus statistics reported in the publication.
 
-The BMM Magahi corpus follows the BIS POS tagset, but the original authors report annotation challenges arising from language-specific morphological and syntactic phenomena, including embedded case markers, emphatic markers, classifiers, diverse realizations of individual tokens, and homophonous forms. The reported Magahi inter-annotator agreement was Cohen's κ = 0.64.
+The BMM Magahi corpus follows the BIS POS tagset. The source publication discusses annotation challenges involving language-specific morphological and syntactic phenomena, including embedded case markers, emphatic markers, classifiers, multiple realizations of individual tokens, and homophonous forms. The reported inter-annotator agreement is Cohen's κ = 0.64.
 
- Published  vs our file
-| POS |	Paper	| Our file |
+#### Published  vs Inspected file
+| POS |	Paper	| Inspected file |
 |---|---|---|
 | NN	| 42,925	| 42,939 |
 | PSP	| 17,933	| 17,934 |
@@ -525,23 +525,26 @@ The BMM Magahi corpus follows the BIS POS tagset, but the original authors repor
 | UNK	| 28	| 28 |
 | UT	| 1	| 1 |
 
-found a continuous block:
+#### Unannotated Block
 
-Sentence 9358 → Sentence 9610
+A continuous unannotated block was identified from Sentence 9358 through Sentence 9610.
 
-containing:
+It contains:
 
 - 253 sentences
 - 3,474 tokens
 - 3,474 empty POS fields
 
-Exclude these 3,474 unannotated tokens from the gold POS dataset, but preserve them in the original/source archive.
-Remaining 3,104 empty tags are different.After removing that big unannotated block:
+These unannotated tokens are excluded from the gold POS dataset while being preserved in the original/source archive.
+
+After accounting for this block:
 
 6,581 − 3,474 = 3,107 empty-tag records
 
-These are scattered throughout the file.
-## Cleaning was done by `clean_bmm.py`.
+The remaining empty-tag records are distributed across the rest of the file.
+
+## Cleaning 
+The source file was done by `clean_bmm.py`.
 
 | Item | Value |
 |---|---|
@@ -557,19 +560,31 @@ These are scattered throughout the file.
 | POS-ready | `bmm_magahi_pos_ready.txt` | 13,014 | 152,557 |
 | Partial (quarantine) | `bmm_magahi_partial_quarantine.txt` | 1,449 | 21,010 |
 | Unannotated (excluded) | `bmm_magahi_excluded_unannotated.txt` | 551 | 4,599 |
-| No tokens (manifest only) | none | 1 | 0 |
+| No tokens  | none | 1 | 0 |
 | **Total** | | **15,015** | **178,166** 
 
-**Unannotated tier:** it contains the continuous 3,474-token block (sentences 9358 to 9610, Section 3.10) plus other fully unannotated sentences elsewhere in the file. The totals are consistent with this: 551 − 253 = 298 further sentences and 4,599 − 3,474 = 1,125 further tokens.
-###  POS-ready set
+The Unannotated tier contains the continuous 3,474-token block described above, together with other fully unannotated sentences elsewhere in the file. 
 
-- 13,014 sentences, 152,557 tokens, 6,831 unique token sequences, 13,462 unique word forms.
-- Sentence length: mean 11.72, median 10, max 109. 672 one-token sentences; 849 punctuation-only sentences.
-- 24 of the 25 BIS tags are present. `UT` occurs once in the whole source, in a partial-tier sentence, so it is absent from POS-ready.
+####  POS-ready set
+The POS-ready set contains:
+- 13,014 sentences
+- 152,557 tokens
+- 6,831 unique token sequences
+- 13,462 unique word forms.
+- Sentence length: mean 11.72, median 10, max 109.
+- 672 one-token sentences
+- 849 punctuation-only sentences.
+- 24 of the 25 BIS tags are present.
+- `UT` occurs once in the whole source, in a partial-tier sentence, so it is absent from POS-ready.
 
-Most frequent tags: NN (25.0%), SYM (14.9%), VM (12.9%), PSP (10.3%), VAUX (10.0%). Full table in the freeze report.
+The most frequent tags are: 
+- NN (25.0%)
+- SYM (14.9%)
+- VM (12.9%)
+- PSP (10.3%)
+- VAUX (10.0%)
 
-###  Rare tags are preserved
+####  Rare tags 
 
 | Tag | Whole source | POS-ready | Partial | Unannotated |
 |---|---:|---:|---:|---:|
@@ -582,7 +597,8 @@ Most frequent tags: NN (25.0%), SYM (14.9%), VM (12.9%), PSP (10.3%), VAUX (10.0
 | INTF | 489 | 455 | 34 | 0 |
 | QO | 570 | 482 | 88 | 0 |
 
-###  Flagged non-standard labels (kept verbatim)
+#### Non-standard labels 
+The following labels are retained verbatim:
 
 | Label | Tokens (whole source) | In POS-ready |
 |---|---:|---:|
@@ -592,7 +608,7 @@ Most frequent tags: NN (25.0%), SYM (14.9%), VM (12.9%), PSP (10.3%), VAUX (10.0
 | QO:? | 1 | 1 |
 | J4 | 1 | 1 |
 
-### KMI Magahi Corpus
+### 4.3.2 KMI Magahi Corpus
 The KMI Magahi corpus is a collection of Magahi (Indo-Aryan) text in five forms: raw text, automatically POS-tagged text, a manually tagged gold POS set, and CoNLL-style token/tag files with BIS and UD (Universal Dependencies) tags. It has two text sources: story text (raw/magahi_story, gold-pos, conll/bis-gold) and blog text (raw/magahi_blog, and most of auto-pos). This corpus is kept separate from the BMM Magahi POS dataset and is not merged with it.
 
 #### Directory structure
