@@ -758,15 +758,13 @@ For the current benchmark preparation:
 
 ## 4.4 Maithili
 
-Current resources include:
-
-- BMM Maithili POS-tagged corpus
+The current Maithili POS collection includes the BMM Maithili POS-tagged corpus
 The corpus has -
 - 253,034 lines
-- 12,680 sentence blocks and 37 distinct tag
+- 12,680 sentence blocks  37 distinct tag
 - `<document>` tags are unbalanced: 47 open vs 45 close.
 
-The corpus is cleaned -
+#### Cleaned Dataset
 | Details | Count |
 |---|---:|
 | Sentences in source | 12,680 |
@@ -775,16 +773,31 @@ The corpus is cleaned -
 | **Tokens kept** | **201,081** |
 | Tokens in excluded sentences | 12,916 |
 | Sentence length (tokens): mean / median  / max | 16.5 / 14 / 272 |
-
+The excluded data include:
 - 313 partially annotated (of which 2 also had malformed rows),
 - 117 fully unannotated (of which 4 also malformed),
 - 59 malformed rows only,
 - 1 malformed tag string (a Devanagari word in the tag column).
+#### POS Tags
+The corpus contains 25 standard tags:
 
-* 25 standard tags: `NN NNP NST PRP DEM VM VAUX JJ RB PSP RP CC WQ QF QC QO CL INTF INJ NEG UT SYM RDP ECH UNK` (most frequent: NN 52,813; VM 25,181; SYM 20,716; VAUX 17,513; PSP 16,014).
-* 11 flagged, kept: `RP:?` 10, `XC` 8, `JJ:?` 7, `QF:?` 3, `NN:?` 3, `RB:?` 2, `PSP:?` 2, `VM:?` 2, `NST:?` 1, `RDP:?` 1, `NEG:?` 1 — 40 tokens in 39 sentences.
+`NN NNP NST PRP DEM VM VAUX JJ RB PSP RP CC WQ QF QC QO CL INTF INJ NEG UT SYM RDP ECH UNK` 
+
+The most frequent tags are:
+- NN: 52,813
+- VM: 25,181
+- SYM: 20,716
+- VAUX 17,513
+- PSP 16,014
+
+The following 11 flagged are kept: 
+
+`RP:?` 10, `XC` 8, `JJ:?` 7, `QF:?` 3, `NN:?` 3, `RB:?` 2, `PSP:?` 2, `VM:?` 2, `NST:?` 1, `RDP:?` 1, `NEG:?` 
+
+These account for 40 tokens in 39 sentences.
 * 1 malformed (`पर`, in the tag column) — lives only in an excluded sentence.
-* `UT` occurs once and is retained as a legitimate rare tag.
+
+The`UT` occurs once and is retained as a legitimate rare tag.
 
 
 # 5. Machine Translation (MT)
@@ -816,7 +829,7 @@ Current resources include:
 
 - BHLTR Hindi-Magahi resources
 - LoResMT2020 Hindi-Magahi resources
-- development, test, and monolingual data where available
+- Development, test, and monolingual data where available
 
 ## 5.4 Maithili
 
@@ -841,9 +854,22 @@ According to the dataset card, the original dataset contains:
 
 The dataset is based on stories collected from online and digital literary sources. The source material and story availability vary across languages.
 
-The current QA component uses Belt1_LittiChoQA_extracted, extracted from the LittiChoQA dataset.For the low-resource Indic language benchmark, six languages were extracted from the original LittiChoQA dataset:
-Angika, Awadhi, Bhojpuri, Braj, Magahi, Maithili
+### 6.1 Benchmark Extraction
+The current QA component uses:
 
+Belt1_LittiChoQA_extracted.json 
+
+extracted from the LittiChoQA dataset. 
+
+Six languages were extracted from the original LittiChoQA dataset:
+- Angika
+- Awadhi
+- Bhojpuri
+- Braj
+- Magahi
+- Maithili
+
+#### Language-Wise Statistics
 | Language |	Stories |	Non-factoid QA |	Factoid QA |	Total QA |
 |---|---|---|---|---|
 | Angika	| 196	| 1,644	| 1,795	| 3,439 |
@@ -856,20 +882,21 @@ Angika, Awadhi, Bhojpuri, Braj, Magahi, Maithili
 
 The extraction was performed by filtering the original data using the language field and retaining the story-level QA data for these six languages.The counts in this table were recomputed directly from the extracted benchmark file rather than copied from the original dataset card.
 
-##  Dataset Format
+### 6.2 Dataset Format
 The extracted benchmark subset is stored as: **Belt1_LittiChoQA_extracted.json**
 
-**The language-wise QA counts shown above are the statistics found and extracted in Belt1_LittiChoQA.json. The reported in the original LittiChoQA dataset card is 594 stories and 14749 QA 
-The 37-record difference between the dataset-card total and the extracted data is retained as a documented data-version discrepancy. The extraction from the released data.json was independently verified and reproduced, including the story counts and story-level integrity.
-
-Each QA record retains the information required for downstream processing, including the story identifier, language, question-answer information, and QA type.
+Each QA record retains the information required for downstream processing, including:  
+- story identifier,
+- language,
+- question-answer information,
+- QA type.
 
 The two QA categories are:
 
 - factoid
 - non-factoid
 
-##  Source Data
+### 6.3 Source Data
 
 The source material reported for the six selected languages includes:
 
@@ -884,9 +911,16 @@ The source material reported for the six selected languages includes:
 
 The source materials are primarily literary and folk-story resources. Consequently, the language coverage represents a relatively narrow narrative/folk-literary domain rather than general-domain language use.
 
-## Train / Development/ Test Split
+### 6.4 Data-Version Discrepancy
+The released extraction contains 14,712 QA records across 594 stories.
 
-The extracted dataset was divided into training, development, and test sets at the story level.This means that all QA records belonging to a particular story are assigned to the same split. Therefore, no story appears across multiple splits.A target ratio of 80% / 10% / 10% was used at the story level. Because different stories contain different numbers of QA pairs, the resulting QA-record distribution is not exactly 80% / 10% / 10%.The split was generated using random seed 42.
+The original LittiChoQA dataset card reports 14,749 QA records for the corresponding six-language coverage. This results in a 37-record difference between the dataset-card total and the extracted data.
+
+The discrepancy is retained as a documented data-version difference. The extraction from the released data.json was independently verified and reproduced, including the story counts and story-level integrity.
+
+### 6.5 Train / Development/ Test Split
+
+The extracted dataset was divided into training, development, and test sets at the story level.All QA records belonging to a particular story are assigned to the same split. Therefore, no story appears across multiple splits. A target ratio of 80% / 10% / 10% was used at the story level. Because individual stories contain different numbers of QA pairs, the resulting QA-record distribution is not exactly 80% / 10% / 10%.The split was generated using random seed 42.
 
 | Split  |	Stories |	QA Records |
 |---|---|---|
@@ -895,6 +929,7 @@ The extracted dataset was divided into training, development, and test sets at t
 | Test	| 59	| 1,954 |
 | Total	| 594	| 14,712 |
 
+#### Split Validation
 The following checks were performed after splitting:
 
 Input records: 14,712
@@ -907,7 +942,7 @@ Dev–Test story overlap: 0
 
 Thus, all 594 stories are preserved and there is no story-level leakage between the three splits.
 
-## Final QA Dataset Structure
+### 6.6 Final QA Dataset Structure
 
 The prepared QA benchmark is organized as:
 
@@ -919,7 +954,7 @@ QA/
 
 Belt1_LittiChoQA_extracted.json contains the complete six-language extraction, while train.json, dev.json, and test.json contain the corresponding story-level benchmark splits.
 
-## Data Handling
+### 6.7 Data Handling
 
 The following processing was performed:
 
@@ -950,8 +985,6 @@ The final NER section will document:
 - deduplication
 - final benchmark statistics
 - train/dev/test organization
-
----
 
 # 8. Dataset Construction Methodology
 
@@ -1011,8 +1044,6 @@ For each included resource, the final documentation will provide:
 - Processing performed
 - Final dataset size
 - Final split information
-
----
 
 # 10. Data Availability
 
