@@ -609,7 +609,17 @@ The following labels are retained verbatim:
 | J4 | 1 | 1 |
 
 ### 4.3.2 KMI Magahi Corpus
-The KMI Magahi corpus is a collection of Magahi (Indo-Aryan) text in five forms: raw text, automatically POS-tagged text, a manually tagged gold POS set, and CoNLL-style token/tag files with BIS and UD (Universal Dependencies) tags. It has two text sources: story text (raw/magahi_story, gold-pos, conll/bis-gold) and blog text (raw/magahi_blog, and most of auto-pos). This corpus is kept separate from the BMM Magahi POS dataset and is not merged with it.
+The KMI Magahi corpus is a collection of Magahi (Indo-Aryan) text in five forms: 
+- raw text
+- automatically POS-tagged text
+- a manually tagged gold POS set
+- CoNLL-style token/tag files with BIS and UD (Universal Dependencies) tags.
+
+The corpus contains two text sources: 
+- story text (raw/magahi_story, gold-pos, conll/bis-gold)
+- blog text (raw/magahi_blog, and most of auto-pos).
+
+This KMI corpus is kept separate from the BMM Magahi POS dataset and is not merged with it.
 
 #### Directory structure
 ```
@@ -625,6 +635,8 @@ kmi/
 ```
 Total: 2,111 files, 99,704,280 bytes uncompressed (raw 31,998,813; auto-pos 47,607,249; conll 19,323,786; gold-pos 774,432).
 
+#### Resource Statistics
+
 | Resource | Files | Sentences | Tokens | Tagset | Status |
 |---|---:|---:|---:|---|---|
 | `raw/magahi_blog` | 933 | 190,143 non-blank lines | 2,600,580 (whitespace) | none | untagged raw text |
@@ -636,10 +648,11 @@ Total: 2,111 files, 99,704,280 bytes uncompressed (raw 31,998,813; auto-pos 47,6
 | `conll/ud-autotagged` part1 | 1 | 4,477 | 60,099 | 18 tags (16 UPOS + `Suffix`, `X`) | automatic |
 | `conll/ud-autotagged` part2 | 1 | 53,692 | 1,046,713 | 17 tags (16 UPOS + `Suffix`) | automatic |
 
-Raw line counts are lines, not linguistically segmented sentences, and raw token counts are whitespace-separated, so they are not comparable to the tagged token counts (which split punctuation).
-###  Tagset (35 tags)
+Raw line counts represent source lines, not linguistically segmented sentences, and raw token counts are whitespace-separated, so they are not comparable to the tagged token counts (which split punctuation).
 
-The three tagged resources (`auto-pos`, `gold-pos`, `conll/bis-gold`) use an identical set of 35 tags once the hyphen in `auto-pos` is normalized to an underscore. No tag appears in one resource and not in the others.
+###  KMI Tagset 
+
+The tagged KMI resources (`auto-pos`, `gold-pos`, `conll/bis-gold`) use an identical set of 35 tags after normalizing the hyphen in `auto-pos` is normalized to an underscore. No tag appears in one resource and not in the others.
 
 | Tag | Standard BIS expansion* | gold-pos | conll/bis-gold | auto-pos |
 |---|---|---:|---:|---:|
@@ -680,8 +693,7 @@ The three tagged resources (`auto-pos`, `gold-pos`, `conll/bis-gold`) use an ide
 | `PR_PRC` | reciprocal pronoun | 2 | 2 | 151 |
 | **Total** | | **46,040** | **60,099** | **2,738,972** |
 
-### Statistics
-**gold-pos files**
+### gold-pos Statistics
 
 | File | Sentences | Tokens | IDs | Line endings |
 |---|---:|---:|---|---|
@@ -692,8 +704,14 @@ The three tagged resources (`auto-pos`, `gold-pos`, `conll/bis-gold`) use an ide
 
 Total: **3,389 sentences, 46,040 tokens**.
 
-Format: header line `ID<TAB>Value`; then one sentence per row as `<ID><TAB>word\TAG word\TAG ...`. Rows are sorted as strings (msd1, msd10, msd100, msd1000, ...), not numerically. Sentences are story text.
-**auto-pos** (1,062 files; mean 15.0, median 11 tokens per line; longest line 4,717 tokens)
+Format: header line `ID<TAB>Value`; 
+
+Then one sentence per row as `<ID><TAB>word\TAG word\TAG ...`. 
+
+Rows are sorted as strings (msd1, msd10, msd100, msd1000, ...), not numerically. Sentences are story text.
+
+#### auto-pos Statistics 
+The auto-pos directory contains 1,062 files.
 
 | File family | Files | Sentences | Tokens |
 |---|---:|---:|---:|
@@ -702,8 +720,9 @@ Format: header line `ID<TAB>Value`; then one sentence per row as `<ID><TAB>word\
 | numbered (`131`, `132`, `137`) | 3 | 136 | 1,662 |
 | **Total** | **1,062** | **182,939** | **2,738,972** |
 
-The scan-derived and numbered families together hold 63,797 tokens, so about 97.7% of `auto-pos` tokens come from the blog corpus.
-**conll**
+The scan-derived and numbered file families contain 63,797 tokens combined. Approximately 97.7% of the auto-pos tokens therefore come from the blog corpus.
+
+#### conll Statistics
 
 | File | Sentences | Tokens | Distinct token types |
 |---|---:|---:|---:|
@@ -712,9 +731,9 @@ The scan-derived and numbered families together hold 63,797 tokens, so about 97.
 | `ud-autotagged/magahi_part1_ud.conll` | 4,477 | 60,099 | 6,981 |
 | `ud-autotagged/magahi_part2_ud.conll` | 53,692 | 1,046,713 | 39,990 |
 
-###  KMI tag inventory (native, unmodified)
+###  KMI tag inventory 
 
-35 distinct tags, hierarchical style:
+The KMI resource has 35 distinct tags, hierarchical style:
 
 - Nouns: `N_NN` (12,495), `N_NNP` (636), `N_NST` (155)
 - Verbs: `V_VM` (8,021), `V_VAUX` (4,205), `V_VM_VF` (7), `V_VM_VNF` (5), `V_VM_VNP` (2)
@@ -727,11 +746,15 @@ The scan-derived and numbered families together hold 63,797 tokens, so about 97.
 - Unprefixed: `PSP` (5,346), `JJ` (456), `RB` (249)
 
 The BMM labels `XC`, `J4`, `WQ:?`, `VAUX:?`, `QO:?`, `UT` and `WQ` do not occur in gold-pos.
+#### KMI Data Handling
 
-- We can use `gold-pos` (3,389 sentences, 46,041 tokens, IDs `msd1`-`msd3389`) as the KMI gold benchmark. It is the only resource with citable sentence IDs.
-- Treat `auto-pos` and `ud-autotagged` as silver (automatic) data, not gold.
-- Do not merge with the BMM Magahi POS dataset. Report statistics for each dataset separately.
-- When comparing texts across files, use NFC normalization as a matching key only and keep the original text unchanged.
+For the current benchmark preparation:
+
+- gold-pos is treated as the KMI gold POS resource because it contains 3,389 sentences with sentence IDs msd1–msd3389.
+- auto-pos and ud-autotagged are treated as automatically generated or silver data rather than gold data.
+- KMI resources are not merged with the BMM Magahi POS dataset.
+- Statistics for BMM and KMI are reported separately.
+- NFC normalization is used only as a matching key when comparing texts across files; the original text is preserved unchanged.
 
 ## 4.4 Maithili
 
