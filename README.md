@@ -776,6 +776,15 @@ For the current benchmark preparation:
 - Statistics for BMM and KMI are reported separately.
 - NFC normalization is used only as a matching key when comparing texts across files; the original text is preserved unchanged.
 
+Experiment	Training data	Evaluation data	Purpose
+M1	Magahi BMM gold	Held-out BMM gold	BMM baseline
+M2	KMI BIS gold	Held-out KMI BIS gold	KMI baseline
+M3	BMM gold	KMI gold	Cross-source generalization
+M4	KMI gold	BMM gold	Reverse cross-source generalization
+M5	BMM + KMI gold	Held-out gold test sets	Benefit of pooling gold sources
+M6	Fixed gold training set	Held-out gold test set	Reference model
+M7	Same gold training set + KMI silver	Same held-out gold test set	Benefit of automatic-label augmentation
+
 ## 4.4 Maithili
 
 The current Maithili POS collection includes the BMM Maithili POS-tagged corpus
