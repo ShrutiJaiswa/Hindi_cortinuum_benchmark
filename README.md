@@ -75,6 +75,7 @@ indic-low-resource-benchmark/
 |   |                 └── 108 .txt files
 │   └── Maithili/
 |       └── BMM/
+|           ├── maithili-pos-clean
 |           └── maithili-pos-tagged-ver-1.3.txt
 ├── MT/
 │   ├── Awadhi/
