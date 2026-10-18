@@ -348,17 +348,16 @@ Rare or odd labels (XC, UT, UNK, NNP:?, NEG:?, -) are not explained in the file.
 | Repeated sentences	| 3,250 extra copies |	exact-text match only |
 | Sentence IDs	| 238 of 15,259 have an ID |	the rest are blank |
 
-#### Proposed processing  
-The following processing is planned for the cleaned derivative:
-- Keep the raw file unchanged
-- Produce a separatecleaned derivative.
-- Deduplicate sentences before any train/dev/test split to avoid leakage.
-- Exclude the 377 fully untagged sentences.
-- Review the 102 partly tagged sentences, either drop them or mask the empty tags 
-- Review the 24 over-long sentences; split only clearly merged ones.
-- Map the odd labels (XC, UT, NNP:?, NEG:?, -) to UNK in the cleaned copy; keep them in the raw copy.
-- Strip BOMs
-- Drop chunk lines from the flat POS view.
+#### BMM (main benchmark split)
+
+- Kept: 14,780 of 15,259 sentences (223,953 tokens), split 80/10/10 at sentence level with seed 42.
+- Excluded: 479 sentences with missing tags. 356 are two fully untagged blocks (sentences 8321–8639 and 14617–14653), 21 are isolated untagged sentences, and 102 have some tokens untagged. I excluded the 102 rather than guess the tags.
+- Sizes: train has 11,824 sentences, dev 1,478 and test 1,478.
+- Duplicates: the source repeats documents. Docs 7 and 22 share 351 sentences, and docs 39–44 share 240 across all six. Identical sentences always go to the same split, so no sentence appears in both train and dev/test. They are flagged in the manifest, so you can still report deduplicated results.
+- Train-only: I forced these into train so test metrics aren’t distorted:
+  - 921 punctuation-only sentences, mostly a lone “.”.
+  - 11 sentences over 128 tokens, including one 1,785-token merged sentence.
+  - Sentences containing tags with fewer than 20 tokens in the corpus.
 
 ### 4.2.2 JNU-BHLTR Bhojpuri POS resource - pos-tagged.bho
 
@@ -429,15 +428,6 @@ Rare labels: V_vM - 7, RD_ECH_B - 5, PR_PRC - 2.
 
 For the 1,554 tokens aligned between BHLTR and the 86 shared BHTB sentences, the XPOS tags agree 94.6% of the time (84 disagreements; most common V_VM vs V_VAUX, 15).
 
-#### Proposed processing
-- Preserve the raw source file unchanged.
-- Remove the four extra duplicate copies before train/dev/test splitting.
-- Set aside the 86 sentences shared with BHTB if BHTB is used as an external test set.
-- Review the 97 multi-terminator blocks.
-- Inspect the 1,204 punctuation-tagging cases before changing them.
-- Preserve rare labels in the raw copy and resolve them in the cleaned copy after confirming the tagset documentation.
-- Flag, but retain, the five tokens containing Latin characters.
-
 ### 4.2.3 BHTB/UD - bho_bhtb-ud-test.conllu
 The resource follows the standard CoNLL-U file: 10 tab-separated columns, # key = value .comment lines, and blank lines between sentences.
 
@@ -479,6 +469,11 @@ The following properties were verified:
 - Spacing is marked using SpacesAfter (447 tokens, 309 of them \n) and SpaceAfter (5 tokens). Standard CoNLL-U uses SpaceAfter=No, so this is a small format quirk.
 - Two sentences (lines 400 and 474) have an English translation, # text_en.
 
+#### bhltr_jnu and BHTB
+
+- bhltr_jnu: all 4,500 sentences have tags and are kept, split 3,600 / 450 / 450 on its own tagset.
+- BHTB: it is a test-only treebank, so I kept it whole at 357 sentences. 101 of its sentences overlap with bhltr_jnu, either as exact matches or as shared 6-word sequences. I added a 252-sentence version without them for any bhltr_jnu → BHTB experiment. It has no overlap with BMM.
+- 
 ## 4.3 Magahi
 
 The current Magahi POS collection includes:
