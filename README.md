@@ -79,10 +79,8 @@ indic-low-resource-benchmark/
 |           └── maithili-pos-tagged-ver-1.3.txt
 ├── MT/
 │   ├── Awadhi/
-|   │   ├── awa_Deva.dev
-│   |   ├── awa_Deva.devtest
-│   |   ├── hin_Deva.dev
-|   |   ├── hin_Deva.devtest
+|   │   ├── awa_Deva.dev, awa_Deva.devtest  FLORES-200
+│   |   ├── hin_Deva.dev, hin_Deva.devtest  FLORES-200 (Hindi)
 │   |   └── FLORES-IN/
 │   |       ├── flores_awa_en_dev.json
 │   |       ├── flores_awa_en_test.json
@@ -128,14 +126,13 @@ indic-low-resource-benchmark/
 │   |   |       ├── hi2mag.test.mag
 |   |   |       ├── mag2hi.test.hi
 |   |   |       └── mag2hi.test.mag
-│   |   └── BHLTR/
+│   |   └── FLORES-200/
 |   │       ├── mag_Deva.dev
 │   |       ├── mag_Deva.devtest
 │   |       ├── hin_Deva.dev
 |   |       └── hin_Deva.devtest
 │   └── Maithili/
-|       ├── mai_Deva.dev
-│       ├── mai_Deva.devtest
+|       ├── mai_Deva.dev, mai_Deva.devtest  FLORES-200
 │       ├── hin_Deva.dev
 |       ├── hin_Deva.devtest
 │       └── FLORES-IN/
@@ -851,6 +848,85 @@ The current MT collection contains resources for Awadhi, Bhojpuri, Magahi, and M
 
 **Only Bhojpuri has training data.** Awadhi, Magahi and Maithili are evaluation-only, so any MT result for them is zero-shot, few-shot, or from a pre-trained model.
 
+## 5.2 Dataset details
+
+### 5.2.1 FLORES-200 (Awadhi, Bhojpuri, Magahi, Maithili)
+
+FLORES-200 is a multiway-parallel evaluation set: line *i* is the same sentence in every language. The `dev` and `devtest` files were released as `.dev` and `.devtest`.
+
+| Split | Sentences | hin tokens | awa | bho | mag | mai | eng |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| dev | 997 | 24,607 | 24,604 | 24,399 | 23,941 | 23,455 | 20,954 |
+| test (devtest) | 1,012 | 25,643 | 25,403 | 25,618 | 25,044 | 24,611 | 21,901 |
+
+Mean sentence length is 23.5 to 25.3 tokens in the Indic languages and about 21 to 22 in English. There are no empty lines, no duplicate sentences, and no Indic sentence identical to its Hindi counterpart.
+
+**English side.** FLORES-IN supplies the English text, but its rows are in a different, shuffled order from FLORES-200 (a different permutation for each language and split). The three FLORES-IN languages contain exactly the same sentences as the FLORES-200 files (set-equal in all six language/split combinations).  
+
+**Magahi English is derived.** FLORES-IN has no Magahi file. The Magahi–English pairing relies on FLORES-200's multiway line alignment. 
+
+### 5.2.2 FLORES-IN (JSON)
+
+Fields: `source`, `target`, `lang`, `translation_direction` (`xxen` or `enxx`), plus a top-level `canary`. Each file has 997 (dev) or 1,012 (test) examples. Files exist for awa, bho and mai in both directions (12 files). The files are used only to obtain the English side (5.4.1) and are not released separately.
+
+### 5.2.3 BHLTR English–Bhojpuri
+
+| Split | Pairs | Bho tokens | Eng tokens | Mean tokens (bho / eng) | Unique pairs |
+|---|---:|---:|---:|---|---:|
+| train | 28,999 | 210,745 | 198,173 | 7.3 / 6.8 | 28,651 |
+| dev | 500 | 3,540 | 3,365 | 7.1 / 6.7 | 499 |
+| test (source only) | 250 + 250 | 1,795 / 1,638 | | 7.2 / 6.6 | |
+
+Training-set issues (counts from the audit; none removed):
+- 348 repeated pairs (`dup_pair_in_split`) and 4 pairs where source equals target.
+- 195 pairs whose source/target length ratio exceeds 3× in either direction.
+- 1,099 Bhojpuri lines (3.8%) are not in NFC form; 19 Bhojpuri lines contain no Devanagari.
+- Dev and train share 31 Bhojpuri sentences and 30 English sentences.
+
+**The BHLTR test set cannot be scored.** The repository releases only `test.bho2eng.bho` (250 lines) and `test.eng2bho.eng` (250 lines) [5]. The reference translations are not part of the release. The two files also appear to be different sentence sets: of the 8 line pairs containing digits, none have matching digits at the same index.  They overlap the training data (13 Bhojpuri and 11 English sentences).
+
+### 5.2.4 LoResMT-2020 Hindi–Bhojpuri and Hindi–Magahi
+
+| Set | Rows | Unique hin | Unique xx | hin tokens | xx tokens | Mean tokens (hin / xx) | Dup. pairs | src = tgt |
+|---|---:|---:|---:|---:|---:|---|---:|---:|
+| bho dev | 500 | 491 | 495 | 2,538 | 2,518 | 5.1 / 5.0 | 4 | 9 |
+| bho test hi→bho | 500 | 496 | 498 | 3,150 | 2,997 | 6.3 / 6.0 | 1 | 2 |
+| bho test bho→hi | 218 | 218 | 218 | 4,567 | 4,659 | 20.9 / 21.4 | 0 | 0 |
+| mag dev | 500 | 491 | 492 | 2,538 | 2,358 | 5.1 / 4.7 | 7 | 6 |
+| mag test hi→mag | 500 | 496 | 494 | 3,150 | 2,856 | 6.3 / 5.7 | 3 | 2 |
+| mag test mag→hi | 500 | 500 | 500 | 11,543 | 11,458 | 23.1 / 22.9 | 0 | 1 |
+
+Observations:
+1. **Two different kinds of test set.** The dev set and the `hi→xx` test sets are short phrases (median 5 tokens). The `xx→hi` test sets are full sentences (median about 20 to 21 tokens). Scores are not comparable across directions.
+2. **The Bhojpuri `bho→hi` test has 218 rows, not 500.**
+3. **The two languages are multi-parallel on the Hindi side.** `dev.hi` is byte-identical in the Bhojpuri and Magahi folders, and `hi2bho.test.hi` equals `hi2mag.test.hi` line for line (496 unique sentences). The Bhojpuri `bho2hi` Hindi side shares 211 of its 218 sentences with the Magahi `mag2hi` Hindi side.
+
+### 5.2.5 LoResMT-2020 monolingual
+
+| File | Lines | Unique lines | Whitespace tokens | Longest line (tokens) |
+|---|---:|---:|---:|---:|
+| `mono.loresmt-2020.bho` | 91,131 | 91,104 | 1,563,332 | 829 |
+| `mono.loresmt-2020.mag` | 148,606 | 103,843 | 2,178,424 | 4,717 |
+
+ The Magahi file repeats 30.1% of its lines. Both files are released unmodified. Text-hygiene counts: Bhojpuri has 8,392 non-NFC lines, 194 lines with zero-width characters and 47 lines containing tabs; Magahi has 35,698 non-NFC lines and every line has leading or trailing whitespace.
+
+## 5.3 Overlap and leakage
+
+Unique sentences shared between sets 
+| Set A | Set B | Shared |
+|---|---|---:|
+| BHLTR train (bho) | LoResMT bho dev (495 unique) | **390** (78.8%) |
+| BHLTR train (bho) | LoResMT bho `hi→bho` test (498 unique) | **355** (71.3%) |
+| BHLTR train (bho) | LoResMT bho `bho→hi` test | 0 |
+| BHLTR train (bho / eng) | FLORES dev and test (bho / eng) | 0 |
+| BHLTR train | BHLTR dev (bho / eng) | 31 / 30 |
+| BHLTR train | BHLTR test sources (bho / eng) | 13 / 11 |
+| LoResMT bho dev | LoResMT bho `hi→bho` test | 5 |
+| LoResMT mag dev | LoResMT mag `hi→mag` test | 6 |
+| Monolingual bho | BHLTR train (bho) | 12 |
+| Monolingual bho | LoResMT bho dev | 1 |
+| Monolingual bho / mag | all FLORES, all other LoResMT test sets | 0 |
+| LoResMT hin (dev, hi→xx test) | FLORES hin | 0 |
 
 # 6. Question Answering (QA)
 Original LittiChoQA: https://github.com/ritwikmishra/LittiChoQA/
