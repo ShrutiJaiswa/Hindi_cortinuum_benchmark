@@ -26,8 +26,8 @@ indic-low-resource-benchmark/
 ├── POS/
 │   ├── Awadhi/{train,dev,test}.conll
 │   ├── Bhojpuri/bmm/{train,dev,test}.tsv
-│   ├── Magahi/BMM/{train,dev,test}.conll
-│   └── Maithili/BMM/{train,dev,test}.conll
+│   ├── Magahi/BMM/{train,dev,test}.tsv
+│   └── Maithili/BMM/{train,dev,test}.tsv
 ├── MT/{Awadhi, Bhojpuri, Magahi, Maithili}/          FLORES-200 files, one sentence per line
 │   ├── {awa,bho,mag,mai}_Deva.{dev,devtest}          the language itself
 │   ├── hin_Deva.{dev,devtest}                        Hindi
@@ -47,9 +47,9 @@ Every available POS resource was audited. One corpus per language went into the 
 | Bhojpuri | **BMM** | 15,259 (14,780 kept) | 234,673 (223,953 kept) | BIS, flat (`NN`) | **yes** |
 | Bhojpuri | JNU-BHLTR | 4,500 | 94,686 | hierarchical, 34 labels | no |
 | Bhojpuri | BHTB (UD treebank) | 357 | 6,665 | UPOS 16 / XPOS 50 | no |
-| Magahi | **BMM** | 15,015 (13,014 kept) | 178,166 (152,553 kept) | BIS, flat | **yes** |
+| Magahi | **BMM** | 15,015 (13,015 kept) | 178,166 (152,570 kept) | BIS, flat | **yes** |
 | Magahi | KMI `gold-pos` (plus automatic `auto-pos` and UD files) | 3,389 | 46,040 | hierarchical, 35 labels | no |
-| Maithili | **BMM** | 12,680 (12,190 kept) | not recorded (201,081 kept) | BIS, flat | **yes** |
+| Maithili | **BMM** | 12,680 (12,222 kept) | not recorded (201,941 kept) | BIS, flat | **yes** |
 
 Why the others are not included :
 - **Magahi KMI:**  kept it separate and did not merge it with BMM. The two use different tag forms and sizes.
@@ -62,8 +62,8 @@ Why the others are not included :
 |---|---|---|---|---|---|
 | Awadhi | KMI | `Awadhi/{train, dev, test}.conll` | CRLF, 3 tab columns: token, tag, `O` placeholder (not NER) | document (47 / 5 / 7 documents) | 42 |
 | Bhojpuri | BMM | `Bhojpuri/bmm/{train,dev,test}.tsv` | LF, 2 tab columns, `# sent_id = bmm_bho_NNNNN` before each sentence | sentence, identical sentences kept together | 42 |
-| Magahi | BMM | `Magahi/BMM/{train,dev,test}.conll` | LF, 2 tab columns, no ids | sentence |  |
-| Maithili | BMM | `Maithili/BMM/{train,dev,test}.conll` | LF, 2 tab columns, no ids | sentence |  |
+| Magahi | BMM | `Magahi/BMM/{train,dev,test}.tsv` | LF, 2 tab columns, `# sent_id = bmm_mag_NNNNN` before each sentence | sentence, identical sentences kept together | 42 |
+| Maithili | BMM | `Maithili/BMM/{train,dev,test}.tsv` | LF, 2 tab columns, `# sent_id = bmm_mai_NNNNN` before each sentence | sentence, identical sentences kept together | 42 |
 
 Sentences are separated by a blank line in every file.
 
@@ -75,14 +75,14 @@ Sentences are separated by a blank line in every file.
 | Bhojpuri | train | 11,824 | 177,738 | 21,721 | 9,179 | 15.0 / 609 |
 | | dev | 1,478 | 23,213 | 5,559 | 1,214 | 15.7 / 106 |
 | | test | 1,478 | 23,002 | 5,703 | 1,234 | 15.6 / 93 |
-| Magahi | train | 10,410 | 123,016 | 12,466 | 5,773 | 11.8 / 109 |
-| | dev | 1,302 | 14,875 | 4,026 | 876 | 11.4 / 69 |
-| | test | 1,302 | 14,662 | 3,956 | 897 | 11.3 / 51 |
-| Maithili | train | 9,752 | 163,208 | 18,285 | 6,564 | 16.7 / 272 |
-| | dev | 1,219 | 18,062 | 4,806 | 877 | 14.8 / 90 |
-| | test | 1,219 | 19,811 | 4,851 | 879 | 16.3 / 99 |
+| Magahi | train | 10,410 | 119,768 | 11,996 | 5,397 | 11.5 / 109 |
+| | dev | 1,303 | 16,045 | 3,392 | 691 | 12.3 / 80 |
+| | test | 1,302 | 16,757 | 3,577 | 743 | 12.9 / 70 |
+| Maithili | train | 9,778 | 159,148 | 18,128 | 6,411 | 16.3 / 272 |
+| | dev | 1,222 | 21,560 | 4,599 | 826 | 17.6 / 101 |
+| | test | 1,222 | 21,233 | 4,807 | 853 | 17.4 / 90 |
 
-Totals: Awadhi 1,584 sentences / 21,526 tokens; Bhojpuri 14,780 / 223,953; Magahi 13,014 / 152,553; Maithili 12,190 / 201,081. All counts above were recomputed from the released files. Unique sentences are exact matches after NFC normalisation; token counts are tab-separated lines.
+Totals: Awadhi 1,584 sentences / 21,526 tokens; Bhojpuri 14,780 / 223,953; Magahi 13,015 / 152,570; Maithili 12,222 / 201,941. All counts above were recomputed from the released files. Unique sentences are exact matches after NFC normalisation; token counts are tab-separated lines.
 
 ### 3.3 Tagsets
 
@@ -90,8 +90,8 @@ Totals: Awadhi 1,584 sentences / 21,526 tokens; Bhojpuri 14,780 / 223,953; Magah
 |---|---:|---|---|
 | Awadhi | 35 | BIS hierarchical | `_` (284 tokens), `null` (13), `POS` (3), `PR_NEG` (3), `RD_RDF` (3) |
 | Bhojpuri | 29 | BIS flat (all 25 present) | `XC` (6), `NNP:?` (3), `-` (1), `NEG:?` (1); all in train |
-| Magahi | 29 | BIS flat (24 of 25 tags present; `UT` absent) | `XC`, `WQ:?`, `VAUX:?`, `QO:?`, `J4` (32 tokens) |
-| Maithili | 36 | BIS flat (all 25 present) | `XC` and ten `:?` variants (40 tokens) |
+| Magahi | 29 | BIS flat (24 of 25 tags present; `UT` absent) | `XC` (28), `WQ:?`, `VAUX:?`, `QO:?`, `J4` (32 tokens) |
+| Maithili | 37 | BIS flat (all 25 present) | `XC` (8), 10 `:?` variants (32 tokens), and `पर` (1 token), a word used as a tag |
 
 **The Awadhi tag form differs from the other three.** Awadhi uses the hierarchical form (`N_NN`, `V_VM`, `PR_PRP`); Bhojpuri, Magahi and Maithili use the flat form (`NN`, `VM`, `PRP`). Results cannot be compared tag for tag across languages until a mapping to one common tagset is defined and checked against the BIS guideline. That mapping has not been done.
 
@@ -101,9 +101,11 @@ Totals: Awadhi 1,584 sentences / 21,526 tokens; Bhojpuri 14,780 / 223,953; Magah
 
 **Bhojpuri.** The sentence ids (`bmm_bho_NNNNN`) run from 1 to 15,259, so every sentence can be traced to the source file. Identical sentences are always in the same split, and train, dev and test share no sentence. Train-only rules from the earlier README hold: 921 punctuation-only sentences in train (one all-punctuation sentence also appears in test), 11 sentences over 128 tokens in train, and every tag with fewer than 20 tokens in train. 11 sentences over 128 tokens in train (longest: 609 tokens, bmm_bho_08650). A 1,785-token merged sentence in the source (bmm_bho_08642) was excluded as partial_empty_pos.
 
-**Magahi and Maithili.** The 80/10/10 split is by sentence (Magahi 10,410 / 1,302 / 1,302; Maithili 9,752 / 1,219 / 1,219). The split method and seed are not recorded in the released files. Unlike Bhojpuri, identical sentences were not kept together, which causes the leakage in section 3.5. Magahi tokens in the released files total 152,553. `[CHECK]`
+**Magahi and Maithili.** Rebuilt from the BMM ver-1.3 source files with the same method as Bhojpuri (seed 42): 80/10/10 by sentence, identical sentences always in the same split, and no dev or test sentence found in train (checked). Sentence ids follow source order (`bmm_mag_NNNNN`, `bmm_mai_NNNNN`) and every excluded sentence is listed with its reason in `sentence_manifest.tsv`. Magahi: 15,015 source sentences, 13,015 kept, 2,000 excluded (1,448 partial_empty_pos, 296 all_pos_empty, 253 unannotated_block, 3 no_tokens). Maithili: 12,680 source sentences, 12,222 kept, 458 excluded (313 partial_empty_pos, 60 all_pos_empty, 57 unannotated_block, 28 tagged_blank_token). Train-only by rule: Magahi 849 punctuation-only sentences and 6 sentences with a rare tag; Maithili 243 punctuation-only sentences, 3 sentences over 128 tokens (longest 272) and 48 with a rare tag.
 
-### 3.5 Train/test overlap (read before reporting results)
+Three differences from the Bhojpuri script, each documented in the split package: a sentence that is never closed is kept instead of dropped (Magahi, 1 sentence); source lines that hold several token records are split instead of truncated (Magahi, 12 lines, 26 tokens); and a sentence is excluded when a record has a tag or a word but no text (Maithili, 28 sentences), because a word may be missing. Non-breaking spaces are kept in the text (Maithili, 7 tokens). Maithili contains the label `पर`, a word in the tag column (1 token, `bmm_mai_08696`, train only), kept and flagged. Earlier freeze: 13,014 / 152,553 (Magahi) and 12,190 / 201,081 (Maithili); the rebuilt corpora contain every sentence of those and add 1 (Magahi) and 32 (Maithili) sentences: sentences whose only problem was a tagless blank record, plus the `पर` sentence in Maithili. Duplicates are flagged, not removed: Magahi 8,444 sentences are repeats, 5,883 of them tagged differently across copies; Maithili 5,165 and 1,914.
+
+### 3.5 Train/test overlap
 
 Rows in dev or test whose exact text also appears in train:
 
@@ -111,16 +113,18 @@ Rows in dev or test whose exact text also appears in train:
 |---|---:|---:|---:|
 | Awadhi | 1 of 113 (0.9%) | 2 of 174 (1.1%) | 172 |
 | Bhojpuri | 0 of 1,478 | 0 of 1,478 | 1,478 |
-| Magahi | 448 of 1,302 (34.4%) | 462 of 1,302 (35.5%) | 840 |
-| Maithili | 145 of 1,219 (11.9%) | 156 of 1,219 (12.8%) | 1,063 |
+| Magahi | 0 of 1,303  | 0 of 1,302 | 1302 |
+| Maithili | 0 of 1,222 | 0 of 1,222  | 1,222 |
 
-About a third of the Magahi test set and an eighth of the Maithili test set were seen verbatim in training, which inflates accuracy. Until the splits are regenerated with identical sentences grouped (as for Bhojpuri), report results on the full test set and on the "not in train" subset side by side.
+Bhojpuri, Magahi and Maithili keep identical sentences in one split, so no dev or test sentence appears in train. Awadhi is split by document and keeps the small overlap shown.
 
 Other points that affect scores:
-- Test-set out-of-vocabulary rate against train: Awadhi 16.5%, Bhojpuri 10.0%, Magahi 4.5%, Maithili 10.9% (dev: 11.9%, 9.4%, 4.2%, 9.0%). Magahi's low rate partly reflects the duplicate sentences.
-- Repeated sentences inside train: Bhojpuri 2,645, Magahi 4,637, Maithili 3,188.
-- Punctuation-only sentences are over-represented in Maithili dev (84, 6.9%) and test (44, 3.6%) compared with train (264, 2.7%).
-
+- Test-set out-of-vocabulary rate against train: Awadhi 16.5%, Bhojpuri 10.0%, Magahi 9.1%, Maithili 11.6% (dev: 11.9%, 9.4%, 8.5%, 10.9%). 
+- Repeated sentences inside train: Bhojpuri 2,645, Magahi 5,013, Maithili 3,367. Dev and test also repeat sentences within themselves: Magahi dev 1,303 rows / 691 distinct, test 1,302 / 743; Maithili dev 1,222 / 826, test 1,222 / 853.
+- Identical sentences can carry different gold tags (`dup_tag_conflict`), which lowers the accuracy any tagger can reach.
+- Punctuation-only sentences are train-only by rule (Bhojpuri 921, Magahi 849, Maithili 243), so dev and test contain none.
+- Report test results on all rows and on one copy of each distinct sentence (`dup_first = 1` in the manifest).
+  
 ## 4. Machine Translation (MT)
 
 ### 4.1 FLORES-200 only
@@ -209,7 +213,7 @@ Resources are still being collected and verified. This section will list sources
 2. Inspect the files and identify the format.
 3. Clean or normalise only the structure (never the text); flag what cannot be fixed.
 4. Select the resource(s) to include and record why others were left out.
-5. Split (document, sentence or story level) with a fixed seed and check for overlap between splits.
+5. Split (document, sentence or story level) with a fixed seed or a deterministic rule, and check for overlap between splits.
 
 Not every task needs every step. 
 
